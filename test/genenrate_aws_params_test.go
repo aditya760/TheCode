@@ -132,5 +132,35 @@ var _ = Describe("generate aws params", func() {
           }
           Expect(string(actual)).To(Equal(string(expected)))
         })
+
+        It("should return availablity zones", func() {
+          //regionName:= aws.String("us-east-1")
+          azs:= []*ec2.AvailabilityZone{}
+          az1:= new(ec2.AvailabilityZone)
+          az1.ZoneName = aws.String("us-east-1a")
+          azs = append(azs, az1)
+          availablityZonesOutput:= ec2.DescribeAvailabilityZonesOutput{
+            AvailabilityZones: azs,
+          }
+
+         ec2s := NewMockEC2API(mockCtrl)
+         ec2s.EXPECT().DescribeAvailabilityZones(nil).
+                      Return(&availablityZonesOutput,nil)
+          test := lib.GetListOfAvailabilityZones(ec2s)
+           Expect(test[1]).To(Equal("us-east-1a"))
+        })
+
+        It("should return chosen Zone", func() {
+          var zones map[int]string
+          zones = make(map[int]string)
+          zones[1] = "us-south-1"
+          zones[2] = "us-south-2"
+          zones[3] = "us-south-3"
+          zones[4] = "us-south-4"
+          zones[5] = "us-south-5"
+          chosenZone:= lib.SelectAvailabilityZones("1,3,5",zones)
+          Expect(chosenZone[1]).To(Equal("us-south-1"))
+        })
     })
 })
+
