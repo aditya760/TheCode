@@ -18,4 +18,4 @@ outputs:
 run:
   path: sh
   args: 
-    - autopcftest/src/cognizant.com/codeblue/ci/scripts/unit-test.sh
+    - autopcftest/ci/scripts/unit-test.sh
