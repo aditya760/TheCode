@@ -9,7 +9,7 @@
     pwd
     export GOPATH=$PWD
 	mkdir -p src/cognizant.com/codeblue/
-	mv $PWD/autopcftest/* $PWD/src/cognizant.com/codeblue/
+	mv $GOPATH/autopcftest/* $GOPATH/src/cognizant.com/codeblue/
     cd src/cognizant.com/codeblue
     glide up
     pwd
